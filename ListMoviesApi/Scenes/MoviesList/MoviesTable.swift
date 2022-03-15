@@ -9,7 +9,7 @@ import UIKit
 
 protocol MoviesTable {
     func setPokemons(movie: PopularMovie)
-    var pageClosure: (() -> ())? { get set }
+    var pageClosure: ((Int) -> ())? { get set }
 }
 
 final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITableViewDataSource {
@@ -28,8 +28,9 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     private var movies: [PopularMovie] = []
     private var results: [Result] = []
     private var isLoading = false
+    var page = 1
     
-    var pageClosure: (() -> ())?
+    var pageClosure: ((Int) -> ())?
     
     init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (Result) -> ()) {
         self.tableView = tableView
@@ -41,7 +42,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     }
     
     func setPokemons(movie: PopularMovie) {
-        results = movie.results
+        results.append(contentsOf: movie.results)
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -60,7 +61,8 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
             isLoading = true
             DispatchQueue.global().async {
                 sleep(2)
-                self.pageClosure?()
+                self.page += 1
+                self.pageClosure?(self.page)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.isLoading = false

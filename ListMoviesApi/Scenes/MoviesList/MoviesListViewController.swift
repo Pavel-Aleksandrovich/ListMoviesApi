@@ -19,24 +19,34 @@ final class MoviesListViewControllerImpl: UIViewController {
     private let networkManager = NetworkManager()
     private let tableView = UITableView()
     private var table: MoviesTable!
-    
-    private var offset: Int = 0
+    private var page: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
         createTableView()
-        showPokemons()
+        configureView()
+        
     }
     
     private func createTableView() {
         table = MoviesTableImpl(tableView: tableView, viewController: self, onCellTappedClosure: { [weak self] movie in
             self?.showMovieDetails(movie: movie)
         })
+        loadMorePokemons()
     }
     
-    func showPokemons() {
-        networkManager.getMovies { result in
+    private func loadMorePokemons() {
+        
+        table.pageClosure = { page in
+            print(page)
+            self.showPokemons(page: page)
+        }
+        
+    }
+
+    
+    func showPokemons(page: Int) {
+        networkManager.getMovies(page: page) { result in
             switch result {
             case .failure(let error):
                 print(error)

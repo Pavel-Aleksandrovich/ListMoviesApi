@@ -66,9 +66,9 @@ final class NetworkManager {
 //    + "&page=\(page)"
     private let baseKey = "https://api.themoviedb.org/3/movie/popular?api_key=e42ad7e92f09e1e62746935304b34548"
     
-    func getMovies(page: Int = 29, completed: @escaping(GetResult) -> ()) {
+    func getMovies(page: Int, completed: @escaping(GetResult) -> ()) {
         
-        let endpoint = baseKey 
+        let endpoint = baseKey + "&page=\(page)"
         
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUrl))
