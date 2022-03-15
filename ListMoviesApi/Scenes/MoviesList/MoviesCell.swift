@@ -16,7 +16,7 @@ final class MoviesCell: UITableViewCell {
     }
     
     private let image = UIImageView()
-    private let title = UILabel()
+    private let titleLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,7 +29,8 @@ final class MoviesCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(note: Movies) {
+    func configure(note: Result) {
+        titleLabel.text = note.title
     }
 }
 
@@ -39,12 +40,12 @@ private extension MoviesCell {
         image.clipsToBounds = true
         image.layer.cornerRadius = self.bounds.height/2
         
-        [image, title].forEach {
+        [image, titleLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         addSubview(image)
-        addSubview(title)
+        addSubview(titleLabel)
     }
     
     func configureLayoutConstraints() {
@@ -55,10 +56,10 @@ private extension MoviesCell {
             image.widthAnchor.constraint(equalToConstant: self.bounds.height),
             image.heightAnchor.constraint(equalToConstant: self.bounds.height),
             
-            title.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: Constants.titleLeading),
-            title.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            title.heightAnchor.constraint(equalToConstant: Constants.titleHeight),
-            title.widthAnchor.constraint(equalToConstant: self.bounds.width/2),
+            titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: Constants.titleLeading),
+            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: Constants.titleHeight),
+            titleLabel.widthAnchor.constraint(equalToConstant: self.bounds.width/2),
         ])
     }
 }

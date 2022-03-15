@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MoviesTable {
-    func setPokemons(pokemons: Movies)
+    func setPokemons(movie: PopularMovie)
     var pageClosure: (() -> ())? { get set }
 }
 
@@ -24,13 +24,14 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     private let refreshControl: RefreshControl
     private weak var viewController: UIViewController?
     private let tableView: UITableView
-    private let onCellTappedClosure: (String) -> ()
-    private var pokemons: [Movies] = []
+    private let onCellTappedClosure: (Result) -> ()
+    private var movies: [PopularMovie] = []
+    private var results: [Result] = []
     private var isLoading = false
     
     var pageClosure: (() -> ())?
     
-    init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (String) -> ()) {
+    init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (Result) -> ()) {
         self.tableView = tableView
         self.viewController = viewController
         self.onCellTappedClosure = onCellTappedClosure
@@ -39,11 +40,11 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         configureTableView()
     }
     
-    func setPokemons(pokemons: Movies) {
-//        self.pokemons.append(contentsOf: pokemons.results)
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
+    func setPokemons(movie: PopularMovie) {
+        results = movie.results
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -70,7 +71,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! MoviesCell
-        cell.configure(note: pokemons[indexPath.row])
+        cell.configure(note: results[indexPath.row])
         return cell
         
     }
@@ -80,7 +81,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pokemons.count
+        return results.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -89,7 +90,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-//        onCellTappedClosure(pokemons[indexPath.row].url)
+        onCellTappedClosure(results[indexPath.row])
     }
     
     private func configureTableView() {

@@ -8,7 +8,7 @@
 import UIKit
 
 final class MoviesListViewControllerImpl: UIViewController {
-   
+    
     private enum Constants {
         static let cellIdentifier = "cellIdentifier"
         static let progressCellIdentifier = "progressCellIdentifier"
@@ -16,6 +16,7 @@ final class MoviesListViewControllerImpl: UIViewController {
         static let title = "Movies"
     }
     
+    let networkManager = NetworkManager()
     private let tableView = UITableView()
     private var table: MoviesTable!
     
@@ -25,19 +26,35 @@ final class MoviesListViewControllerImpl: UIViewController {
         super.viewDidLoad()
         configureView()
         createTableView()
+        showPokemons()
     }
     
     private func createTableView() {
-        table = MoviesTableImpl(tableView: tableView, viewController: self, onCellTappedClosure: { [weak self] url in
+        table = MoviesTableImpl(tableView: tableView, viewController: self, onCellTappedClosure: { [weak self] movie in
+            self?.showMovieDetails(movie: movie)
         })
     }
     
-    func showPokemons(pokemons: Movies) {
-        table.setPokemons(pokemons: pokemons)
+    func showPokemons() {
+        networkManager.getMovies { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let movie):
+                self.table.setPokemons(movie: movie)
+            }
+        }
     }
-   
+    
     private func configureView() {
         title = Constants.title
+    }
+    
+    func showMovieDetails(movie: Result) {
+        let vc = MovieDetailsViewControllerImpl()
+        vc.configure(pokemon: movie)
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 
