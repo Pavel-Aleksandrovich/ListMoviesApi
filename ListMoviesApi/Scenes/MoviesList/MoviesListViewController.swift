@@ -16,7 +16,7 @@ final class MoviesListViewControllerImpl: UIViewController {
         static let title = "Movies"
     }
     
-    let networkManager = NetworkManager()
+    private let networkManager = NetworkManager()
     private let tableView = UITableView()
     private var table: MoviesTable!
     
