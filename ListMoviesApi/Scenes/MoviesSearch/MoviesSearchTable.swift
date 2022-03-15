@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MoviesSearchTable {
-    func setPokemons(movie: PopularMovie)
+    func setPokemons(movie: SearchMovie)
     var pageClosure: (() -> ())? { get set }
 }
 
@@ -26,7 +26,7 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
     private let tableView: UITableView
     private let onCellTappedClosure: (Result) -> ()
     private var movies: [PopularMovie] = []
-    private var results: [Result] = []
+    private var results: [SearchResult] = []
     private var isLoading = false
     
     var pageClosure: (() -> ())?
@@ -40,7 +40,7 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
         configureTableView()
     }
     
-    func setPokemons(movie: PopularMovie) {
+    func setPokemons(movie: SearchMovie) {
         results = movie.results
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -90,7 +90,7 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        onCellTappedClosure(results[indexPath.row])
+//        onCellTappedClosure(results[indexPath.row])
     }
     
     private func configureTableView() {

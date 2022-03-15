@@ -25,6 +25,7 @@
 		847E09C227E08B3B0067E936 /* MoviesSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09C127E08B3B0067E936 /* MoviesSearchTable.swift */; };
 		847E09C427E08B9F0067E936 /* MoviesSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09C327E08B9F0067E936 /* MoviesSearchViewController.swift */; };
 		847E09C627E08BE90067E936 /* MoviesSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09C527E08BE90067E936 /* MoviesSearchCell.swift */; };
+		847E09C827E093770067E936 /* SearchMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09C727E093770067E936 /* SearchMovie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		847E09C127E08B3B0067E936 /* MoviesSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesSearchTable.swift; sourceTree = "<group>"; };
 		847E09C327E08B9F0067E936 /* MoviesSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesSearchViewController.swift; sourceTree = "<group>"; };
 		847E09C527E08BE90067E936 /* MoviesSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesSearchCell.swift; sourceTree = "<group>"; };
+		847E09C727E093770067E936 /* SearchMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				847E09A327DF31060067E936 /* PopularMovie.swift */,
 				847E09B027DF49120067E936 /* Posters.swift */,
 				847E09B827E0546F0067E936 /* Film.swift */,
+				847E09C727E093770067E936 /* SearchMovie.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				847E09A427DF31060067E936 /* PopularMovie.swift in Sources */,
 				847E098F27DEFA3B0067E936 /* AppDelegate.swift in Sources */,
 				847E09C227E08B3B0067E936 /* MoviesSearchTable.swift in Sources */,
+				847E09C827E093770067E936 /* SearchMovie.swift in Sources */,
 				847E09C427E08B9F0067E936 /* MoviesSearchViewController.swift in Sources */,
 				847E09B427DF496E0067E936 /* NetworkManager.swift in Sources */,
 				847E09BF27E08ACE0067E936 /* MoviesTabBarController.swift in Sources */,

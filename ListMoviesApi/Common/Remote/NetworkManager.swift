@@ -17,6 +17,11 @@ enum GetResult {
     case failure(ErrorMessage)
 }
 
+enum SeaResult {
+    case success(SearchMovie)
+    case failure(ErrorMessage)
+}
+
 final class NetworkManager {
     
     private let baseUrl = "https://image.tmdb.org/t/p/"
@@ -90,6 +95,44 @@ final class NetworkManager {
             
             do {
                 let response = try JSONDecoder().decode(PopularMovie.self, from: data)
+                completed(.success(response))
+            } catch {
+                completed(.failure(.invalidData))
+            }
+        }.resume()
+    }
+    
+    let mainUrl = "https://api.themoviedb.org/3/search/company?api_key=e42ad7e92f09e1e62746935304b34548"
+    
+    func searchMovies(query: String, page: Int = 1, completed: @escaping(SeaResult) -> ()) {
+        
+        let endpoint = mainUrl + "&query=\(query)" + "&page=\(page)"
+        
+        guard let url = URL(string: endpoint) else {
+            completed(.failure(.invalidUrl))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            // Returns if error exists
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do {
+                let response = try JSONDecoder().decode(SearchMovie.self, from: data)
                 completed(.success(response))
             } catch {
                 completed(.failure(.invalidData))

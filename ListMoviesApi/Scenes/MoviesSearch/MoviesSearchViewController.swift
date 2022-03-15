@@ -27,7 +27,7 @@ final class MoviesSearchViewControllerImpl: UIViewController {
         super.viewDidLoad()
         configureView()
         createTableView()
-        showPokemons()
+        
         configureSearchBar()
     }
     
@@ -46,7 +46,16 @@ final class MoviesSearchViewControllerImpl: UIViewController {
         })
     }
     
-    func showPokemons() {
+    func showPokemons(string: String) {
+        networkManager.searchMovies(query: string) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let movies):
+                self.table.setPokemons(movie: movies)
+                print(movies.page)
+            }
+        }
     }
     
     private func configureView() {
@@ -64,7 +73,9 @@ final class MoviesSearchViewControllerImpl: UIViewController {
 extension MoviesSearchViewControllerImpl: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+//        filterContentForSearchText(searchController.searchBar.text!)
+        showPokemons(string: searchController.searchBar.text!)
+        
     }
     
     private func filterContentForSearchText(_ searchText: String) {
