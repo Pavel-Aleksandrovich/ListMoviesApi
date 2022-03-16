@@ -8,8 +8,10 @@
 import UIKit
 
 protocol MoviesTable {
-    func setPokemons(movie: PopularMovie)
+    func setPokemons(movie: [Result])
     var pageClosure: (() -> ())? { get set }
+    func sortBy()
+    func sortByTitle()
 }
 
 final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITableViewDataSource {
@@ -40,11 +42,21 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         configureTableView()
     }
     
-    func setPokemons(movie: PopularMovie) {
-        results.append(contentsOf: movie.results)
+    func setPokemons(movie: [Result]) {
+        results.append(contentsOf: movie)
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    func sortBy() {
+        results = results.sorted { $0.id > $1.id  }
+        tableView.reloadData()
+    }
+    
+    func sortByTitle() {
+        results = results.sorted { $0.title < $1.title }
+        tableView.reloadData()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

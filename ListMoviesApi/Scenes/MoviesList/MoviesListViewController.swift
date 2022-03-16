@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum sortState {
+    case id
+}
+
 final class MoviesListViewControllerImpl: UIViewController, MoviesListViewController {
     
     private enum Constants {
@@ -32,6 +36,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         super.viewDidLoad()
         createTableView()
         configureView()
+        createAddNoteButton()
     }
     
     private func createTableView() {
@@ -47,7 +52,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         }
     }
 
-    func success(movies: PopularMovie) {
+    func success(movies: [Result]) {
         table.setPokemons(movie: movies)
     }
     
@@ -58,11 +63,34 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     
     private func loadMore() {
         page += 1
-        presenter.getMovies(page: page)
+        presenter.getDictionaryMovies(page: page)
     }
     
     private func configureView() {
         title = Constants.title
+    }
+    
+    private func createAddNoteButton() {
+        let addNoteButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonTapped))
+        self.navigationItem.rightBarButtonItem = addNoteButton
+    }
+    
+    @objc private func addNoteButtonTapped() {
+        let alert = UIAlertController(title: "Sorting", message: nil, preferredStyle: .actionSheet)
+        
+        let photoLibraryAction = UIAlertAction(title: "Sorted by id", style: .default) {_ in
+            self.table.sortBy()
+        }
+        let cameraAction = UIAlertAction(title: "Sorted by Title", style: .default) {_ in
+            self.table.sortByTitle()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(photoLibraryAction)
+        alert.addAction(cameraAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
 }
 

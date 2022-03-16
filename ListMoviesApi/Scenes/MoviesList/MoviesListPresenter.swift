@@ -11,10 +11,11 @@ protocol MoviesListPresenter {
     func onViewAttached(controller: MoviesListViewController)
     func showMovieDetails(movie: Result)
     func getMovies(page: Int)
+    func getDictionaryMovies(page: Int)
 }
 
 protocol MoviesListViewController: AnyObject {
-    func success(movies: PopularMovie)
+    func success(movies: [Result])
     func failure(error: ErrorMessage)
 }
 
@@ -38,13 +39,20 @@ final class MoviesListPresenterImpl: MoviesListPresenter {
     }
     
     func getMovies(page: Int) {
-        interactor.getMovies(page: page) { result in
-            switch result {
-            case .failure(let error):
-                self.controller?.failure(error: error)
-            case .success(let movies):
-                self.controller?.success(movies: movies)
-            }
+//        interactor.getMovies(page: page) { result in
+//            switch result {
+//            case .failure(let error):
+//                self.controller?.failure(error: error)
+//            case .success(let movies):
+//                self.controller?.success(movies: movies)
+//            }
+//        }
+    }
+    
+    func getDictionaryMovies(page: Int) {
+        interactor.getDictionaryMovies(page: page) { result in
+//            print(result.count)
+            self.controller?.success(movies: result)
         }
     }
 }
