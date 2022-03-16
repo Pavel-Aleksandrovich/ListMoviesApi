@@ -9,8 +9,8 @@ import UIKit
 
 final class MoviesTabBarController: UITabBarController {
     
-    private let moviesList = UINavigationController(rootViewController: MoviesListViewControllerImpl())
-    private let moviesSearch = UINavigationController(rootViewController: MoviesSearchViewControllerImpl())
+    private let moviesList = MoviesListAssembler.assembly()
+    private let moviesSearch = MoviesSearchAssembler.assembly()
     
     override func viewDidLoad() {
         super.viewDidLoad()

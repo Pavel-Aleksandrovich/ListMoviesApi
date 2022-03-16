@@ -56,7 +56,7 @@ final class NetworkManager {
     
     let mainUrl = "https://api.themoviedb.org/3/search/movie?api_key=e42ad7e92f09e1e62746935304b34548"
     
-    func searchMovies(query: String, page: Int = 1, completed: @escaping(GetResult) -> ()) {
+    func searchMovies(query: String, completed: @escaping(GetResult) -> ()) {
         
         let endpoint = mainUrl + "&query=\(query)" 
         

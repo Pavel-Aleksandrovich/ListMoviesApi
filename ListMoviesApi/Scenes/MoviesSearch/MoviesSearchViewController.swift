@@ -7,17 +7,27 @@
 
 import UIKit
 
-final class MoviesSearchViewControllerImpl: UIViewController {
+final class MoviesSearchViewControllerImpl: UIViewController, MoviesSearchViewController {
     
     private enum Constants {
         static let title = "Movies"
     }
     
-    private let networkManager = NetworkManager()
+    private let presenter: MoviesSearchPresenter
     private let tableView = UITableView()
     private var table: MoviesSearchTable!
     private var searchBar: MovieSearchBar!
     private let searchController = UISearchController(searchResultsController: nil)
+    
+    init(presenter: MoviesSearchPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        presenter.onViewAttached(controller: self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,32 +38,22 @@ final class MoviesSearchViewControllerImpl: UIViewController {
     
     private func configureSearchBar() {
         searchBar = MovieSearchBar(searchController: searchController, view: self, searchResultClosure: { string in
-            self.showPokemons(string: string)
+            self.presenter.searchMovies(string: string)
         })
+    }
+    
+    func success(movies: PopularMovie) {
+        table.setPokemons(movie: movies)
+    }
+    
+    func failure(error: ErrorMessage) {
+        print(error)
     }
     
     private func createTableView() {
         table = MoviesSearchTableImpl(tableView: tableView, viewController: self, onCellTappedClosure: { [weak self] movie in
-            self?.showMovieSearchDetails(movie: movie)
+            self?.presenter.showMovieDetails(movie: movie)
         })
-    }
-    
-    func showPokemons(string: String) {
-        networkManager.searchMovies(query: string) { result in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let movies):
-                self.table.setPokemons(movie: movies)
-                print(movies.page)
-            }
-        }
-    }
-    
-    private func showMovieSearchDetails(movie: Result) {
-        let vc = MovieDetailsViewControllerImpl()
-        vc.configure(pokemon: movie)
-        navigationController?.pushViewController(vc, animated: false)
     }
     
     private func configureView() {
