@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MoviesSearchTable {
-    func setPokemons(movie: SearchMovie)
+    func setPokemons(movie: PopularMovie)
     var pageClosure: (() -> ())? { get set }
 }
 
@@ -22,11 +22,11 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
     }
     
     private let refreshControl: RefreshControl
-    private weak var viewController: UIViewController?
+    private let viewController: UIViewController
     private let tableView: UITableView
     private let onCellTappedClosure: (Result) -> ()
     private var movies: [PopularMovie] = []
-    private var results: [SearchResult] = []
+    private var results: [Result] = []
     private var isLoading = false
     
     var pageClosure: (() -> ())?
@@ -40,7 +40,7 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
         configureTableView()
     }
     
-    func setPokemons(movie: SearchMovie) {
+    func setPokemons(movie: PopularMovie) {
         results = movie.results
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -101,7 +101,7 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        guard let view = viewController?.view else { return }
+        guard let view = viewController.view else { return }
         
         view.backgroundColor = .white
         view.addSubview(tableView)

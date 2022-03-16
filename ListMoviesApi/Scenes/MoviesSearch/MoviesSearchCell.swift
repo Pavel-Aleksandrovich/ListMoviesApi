@@ -29,8 +29,8 @@ final class MoviesSearchCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(note: SearchResult) {
-        titleLabel.text = note.name
+    func configure(note: Result) {
+        titleLabel.text = note.title
     }
 }
 

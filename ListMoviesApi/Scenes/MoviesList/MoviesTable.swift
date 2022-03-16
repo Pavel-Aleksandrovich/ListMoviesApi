@@ -9,7 +9,7 @@ import UIKit
 
 protocol MoviesTable {
     func setPokemons(movie: PopularMovie)
-    var pageClosure: ((Int) -> ())? { get set }
+    var pageClosure: (() -> ())? { get set }
 }
 
 final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITableViewDataSource {
@@ -22,15 +22,14 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     }
     
     private let refreshControl: RefreshControl
-    private weak var viewController: UIViewController?
+    private let viewController: UIViewController
     private let tableView: UITableView
     private let onCellTappedClosure: (Result) -> ()
     private var movies: [PopularMovie] = []
     private var results: [Result] = []
     private var isLoading = false
-    var page = 1
     
-    var pageClosure: ((Int) -> ())?
+    var pageClosure: (() -> ())?
     
     init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (Result) -> ()) {
         self.tableView = tableView
@@ -61,8 +60,8 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
             isLoading = true
             DispatchQueue.global().async {
                 sleep(2)
-                self.page += 1
-                self.pageClosure?(self.page)
+                
+                self.pageClosure?()
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.isLoading = false
@@ -103,7 +102,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        guard let view = viewController?.view else { return }
+        guard let view = viewController.view else { return }
         
         view.backgroundColor = .white
         view.addSubview(tableView)

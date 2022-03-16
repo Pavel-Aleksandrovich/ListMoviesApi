@@ -25,7 +25,6 @@ final class MoviesListViewControllerImpl: UIViewController {
         super.viewDidLoad()
         createTableView()
         configureView()
-        
     }
     
     private func createTableView() {
@@ -36,12 +35,9 @@ final class MoviesListViewControllerImpl: UIViewController {
     }
     
     private func loadMorePokemons() {
-        
-        table.pageClosure = { page in
-            print(page)
-            self.showPokemons(page: page)
+        table.pageClosure = {
+            self.loadMore()
         }
-        
     }
 
     
@@ -50,10 +46,16 @@ final class MoviesListViewControllerImpl: UIViewController {
             switch result {
             case .failure(let error):
                 print(error)
+                self.loadMore()
             case .success(let movie):
                 self.table.setPokemons(movie: movie)
             }
         }
+    }
+    
+    private func loadMore() {
+        page += 1
+        showPokemons(page: page)
     }
     
     private func configureView() {
@@ -64,7 +66,6 @@ final class MoviesListViewControllerImpl: UIViewController {
         let vc = MovieDetailsViewControllerImpl()
         vc.configure(pokemon: movie)
         navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
 
