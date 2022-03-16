@@ -16,19 +16,13 @@ final class MovieDetailsViewControllerImpl: UIViewController {
     
     private let activityView = UIActivityIndicatorView()
     private let titleLabel = UILabel()
-    private let favoriteImageView = UIImageView()
-    private let deleteImageView = UIImageView()
     private let pokemonImageView = UIImageView()
-    
-    var deleteOrFavoriteClosure: ((DeleteOrFavorite) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-        
-        configureLayout()
-        configureActions()
         activityView.startAnimating()
+        configureView()
+        configureLayout()
     }
     
     func configure(pokemon: Result) {
@@ -56,36 +50,11 @@ final class MovieDetailsViewControllerImpl: UIViewController {
     
     private func configureView() {
         view.backgroundColor = .white
-        
-        favoriteImageView.image = UIImage(systemName: "heart") //heart.fill
-        favoriteImageView.isUserInteractionEnabled = true
-        favoriteImageView.contentMode = .scaleAspectFit
-        
-        deleteImageView.image = UIImage(systemName: "trash")
-        deleteImageView.contentMode = .scaleAspectFit
-        deleteImageView.isUserInteractionEnabled = true
-    }
-    
-    private func configureActions() {
-        
-        let favorite = UITapGestureRecognizer(target: self, action: #selector(addToFavorite))
-        favoriteImageView.addGestureRecognizer(favorite)
-        
-        let trash = UITapGestureRecognizer(target: self, action: #selector(deleteFromFavorite))
-        deleteImageView.addGestureRecognizer(trash)
-    }
-    
-    @objc func addToFavorite(_ sender: UITapGestureRecognizer) {
-        deleteOrFavoriteClosure?(.favorite)
-    }
-    
-    @objc func deleteFromFavorite(_ sender: UITapGestureRecognizer) {
-        deleteOrFavoriteClosure?(.delete)
     }
     
     private func configureLayout() {
         
-        [titleLabel, favoriteImageView, deleteImageView, pokemonImageView, activityView].forEach {
+        [titleLabel, pokemonImageView, activityView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
@@ -98,16 +67,6 @@ final class MovieDetailsViewControllerImpl: UIViewController {
             
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 20),
-            
-            favoriteImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            favoriteImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            favoriteImageView.heightAnchor.constraint(equalToConstant: 60),
-            favoriteImageView.widthAnchor.constraint(equalToConstant: 60),
-            
-            deleteImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            deleteImageView.topAnchor.constraint(equalTo: favoriteImageView.bottomAnchor, constant: 20),
-            deleteImageView.heightAnchor.constraint(equalToConstant: 60),
-            deleteImageView.widthAnchor.constraint(equalToConstant: 60),
             
             activityView.centerYAnchor.constraint(equalTo: pokemonImageView.centerYAnchor),
             activityView.centerXAnchor.constraint(equalTo: pokemonImageView.centerXAnchor),

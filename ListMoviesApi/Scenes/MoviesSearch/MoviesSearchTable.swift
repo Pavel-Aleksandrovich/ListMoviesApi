@@ -9,33 +9,24 @@ import UIKit
 
 protocol MoviesSearchTable {
     func setPokemons(movie: PopularMovie)
-    var pageClosure: (() -> ())? { get set }
 }
 
 final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDelegate, UITableViewDataSource {
     
     private enum Constants {
         static let cellIdentifier = "cellIdentifier"
-        static let progressCellIdentifier = "progressCellIdentifier"
         static let heightForRow: CGFloat = 80
-        static let title = "Pokemons"
     }
     
-    private let refreshControl: RefreshControl
     private let viewController: UIViewController
     private let tableView: UITableView
     private let onCellTappedClosure: (Result) -> ()
-    private var movies: [PopularMovie] = []
     private var results: [Result] = []
-    private var isLoading = false
-    
-    var pageClosure: (() -> ())?
     
     init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (Result) -> ()) {
         self.tableView = tableView
         self.viewController = viewController
         self.onCellTappedClosure = onCellTappedClosure
-        refreshControl = RefreshControl(tableView: tableView)
         super.init()
         configureTableView()
     }
@@ -47,37 +38,11 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        if (offsetY > contentHeight - scrollView.frame.height * 4) && !isLoading {
-            loadMoreData()
-        }
-    }
-    
-    private func loadMoreData() {
-        if !isLoading {
-            isLoading = true
-            DispatchQueue.global().async {
-                sleep(2)
-                self.pageClosure?()
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as! MoviesSearchCell
+        
         cell.configure(note: results[indexPath.row])
         return cell
-        
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,7 +55,7 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-//        onCellTappedClosure(results[indexPath.row])
+        onCellTappedClosure(results[indexPath.row])
     }
     
     private func configureTableView() {

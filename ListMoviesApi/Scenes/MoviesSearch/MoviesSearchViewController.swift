@@ -34,6 +34,7 @@ final class MoviesSearchViewControllerImpl: UIViewController {
     
     private func createTableView() {
         table = MoviesSearchTableImpl(tableView: tableView, viewController: self, onCellTappedClosure: { [weak self] movie in
+            self?.showMovieSearchDetails(movie: movie)
         })
     }
     
@@ -47,6 +48,12 @@ final class MoviesSearchViewControllerImpl: UIViewController {
                 print(movies.page)
             }
         }
+    }
+    
+    private func showMovieSearchDetails(movie: Result) {
+        let vc = MovieDetailsViewControllerImpl()
+        vc.configure(pokemon: movie)
+        navigationController?.pushViewController(vc, animated: false)
     }
     
     private func configureView() {
