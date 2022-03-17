@@ -7,8 +7,10 @@
 
 import UIKit
 
-enum sortState {
+enum SortState {
     case id
+    case title
+    case random
 }
 
 final class MoviesListViewControllerImpl: UIViewController, MoviesListViewController {
@@ -35,8 +37,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         createTableView()
-        configureView()
-        createAddNoteButton()
+        createSortingButton()
     }
     
     private func createTableView() {
@@ -52,8 +53,8 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         }
     }
 
-    func success(movies: [Result]) {
-        table.setPokemons(movie: movies)
+    func success(movies: PopularMovie) {
+        table.configureMovies(movie: movies)
     }
     
     func failure(error: ErrorMessage) {
@@ -62,32 +63,35 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     }
     
     private func loadMore() {
+        presenter.getMovies(page: page)
         page += 1
-        presenter.getDictionaryMovies(page: page)
     }
     
-    private func configureView() {
-        title = Constants.title
+    private func createSortingButton() {
+        let sortingButton = UIBarButtonItem(title: "Sorting by: Random", style: .done, target: self, action: #selector(sortingButtonTapped))
+        navigationItem.rightBarButtonItem = sortingButton
     }
     
-    private func createAddNoteButton() {
-        let addNoteButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonTapped))
-        self.navigationItem.rightBarButtonItem = addNoteButton
-    }
-    
-    @objc private func addNoteButtonTapped() {
-        let alert = UIAlertController(title: "Sorting", message: nil, preferredStyle: .actionSheet)
+    @objc private func sortingButtonTapped() {
+        let alert = UIAlertController(title: "Sorting by:", message: nil, preferredStyle: .actionSheet)
         
-        let photoLibraryAction = UIAlertAction(title: "Sorted by id", style: .default) {_ in
-            self.table.sortBy()
+        let photoLibraryAction = UIAlertAction(title: "Id", style: .default) {_ in
+            self.table.sortBy(state: .id)
+            self.navigationItem.rightBarButtonItem?.title = "Sorting by: Id"
         }
-        let cameraAction = UIAlertAction(title: "Sorted by Title", style: .default) {_ in
-            self.table.sortByTitle()
+        let cameraAction = UIAlertAction(title: "Title", style: .default) {_ in
+            self.table.sortBy(state: .title)
+            self.navigationItem.rightBarButtonItem?.title = "Sorting by: Title"
+        }
+        let randomAction = UIAlertAction(title: "Random", style: .default) {_ in
+            self.table.sortBy(state: .random)
+            self.navigationItem.rightBarButtonItem?.title = "Sorting by: Random"
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         alert.addAction(photoLibraryAction)
         alert.addAction(cameraAction)
+        alert.addAction(randomAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true)

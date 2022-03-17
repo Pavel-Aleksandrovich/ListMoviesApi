@@ -8,10 +8,9 @@
 import UIKit
 
 protocol MoviesTable {
-    func setPokemons(movie: [Result])
+    func configureMovies(movie: PopularMovie)
     var pageClosure: (() -> ())? { get set }
-    func sortBy()
-    func sortByTitle()
+    func sortBy(state: SortState)
 }
 
 final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITableViewDataSource {
@@ -20,16 +19,16 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         static let cellIdentifier = "cellIdentifier"
         static let progressCellIdentifier = "progressCellIdentifier"
         static let heightForRow: CGFloat = 80
-        static let title = "Pokemons"
     }
     
     private let refreshControl: RefreshControl
     private let viewController: UIViewController
     private let tableView: UITableView
     private let onCellTappedClosure: (Result) -> ()
-    private var movies: [PopularMovie] = []
+    private var movies: [Result] = []
     private var results: [Result] = []
     private var isLoading = false
+    private var state: SortState = .random
     
     var pageClosure: (() -> ())?
     
@@ -42,21 +41,46 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         configureTableView()
     }
     
-    func setPokemons(movie: [Result]) {
-        results.append(contentsOf: movie)
+    func configureMovies(movie: PopularMovie) {
+        movies.append(contentsOf: movie.results)
+        chooseState()
+    }
+    
+    func sortBy(state: SortState) {
+        self.state = state
+        chooseState()
+    }
+    
+    private func chooseState() {
+        switch self.state {
+        case .id:
+            sortById()
+        case .title:
+            sortByTitle()
+        case .random:
+            sortByRandom()
+        }
+    }
+    
+    private func sortById() {
+        results = movies.sorted { $0.id > $1.id  }
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
-    func sortBy() {
-        results = results.sorted { $0.id > $1.id  }
-        tableView.reloadData()
+    private func sortByTitle() {
+        results = movies.sorted { $0.title < $1.title }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
-    func sortByTitle() {
-        results = results.sorted { $0.title < $1.title }
-        tableView.reloadData()
+    private func sortByRandom() {
+        results = movies
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -72,7 +96,6 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
             isLoading = true
             DispatchQueue.global().async {
                 sleep(2)
-                
                 self.pageClosure?()
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -127,4 +150,3 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         ])
     }
 }
-
