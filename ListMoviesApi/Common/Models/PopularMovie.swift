@@ -10,7 +10,7 @@ import Foundation
 // MARK: - PopularMovie
 struct PopularMovie: Codable {
     let page: Int
-    let results: [Result]
+    let results: [FetchMovie]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {
@@ -21,7 +21,7 @@ struct PopularMovie: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct FetchMovie: Codable {
     let adult: Bool
     let backdropPath: String
     let genreIDS: [Int]

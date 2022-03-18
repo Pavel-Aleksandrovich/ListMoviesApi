@@ -19,9 +19,9 @@ final class MovieDetailsPresenterImpl: MovieDetailsPresenter {
     
     private weak var controller: MovieDetailsViewController?
     private let interactor: MoviesInteractor
-    private var movie: Result
+    private var movie: FetchMovie
     
-    init(interactor: MoviesInteractor, movie: Result) {
+    init(interactor: MoviesInteractor, movie: FetchMovie) {
         self.interactor = interactor
         self.movie = movie
     }

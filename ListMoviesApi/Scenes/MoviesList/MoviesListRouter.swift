@@ -8,14 +8,14 @@
 import UIKit
 
 protocol MoviesListRouter {
-    func showMovieDetails(movie: Result)
+    func showMovieDetails(movie: FetchMovie)
 }
 
 final class MoviesListRouterImpl: MoviesListRouter {
     
     weak var controller: UIViewController?
     
-    func showMovieDetails(movie: Result) {
+    func showMovieDetails(movie: FetchMovie) {
         let vc = MovieDetailsAssembler.assembly(movie: movie)
         controller?.navigationController?.pushViewController(vc, animated: true)
     }

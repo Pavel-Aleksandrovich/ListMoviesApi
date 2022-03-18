@@ -29,7 +29,7 @@ final class MoviesCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(note: Result) {
+    func configure(note: FetchMovie) {
         titleLabel.text = note.title
     }
 }

@@ -9,9 +9,9 @@ import UIKit
 
 final class MovieDetailsAssembler {
     
-    static func assembly(movie: Result) -> UIViewController {
+    static func assembly(movie: FetchMovie) -> UIViewController {
         
-        let networkManager = NetworkManager()
+        let networkManager = NetworkManagerImpl()
         let interactor = MoviesInteractorImpl(networkManager: networkManager)
         let presenter = MovieDetailsPresenterImpl(interactor: interactor, movie: movie)
         let controller = MovieDetailsViewControllerImpl(presenter: presenter)

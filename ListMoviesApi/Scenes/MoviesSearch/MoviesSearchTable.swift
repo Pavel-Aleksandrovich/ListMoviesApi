@@ -20,10 +20,10 @@ final class MoviesSearchTableImpl: NSObject, MoviesSearchTable, UITableViewDeleg
     
     private let viewController: UIViewController
     private let tableView: UITableView
-    private let onCellTappedClosure: (Result) -> ()
-    private var results: [Result] = []
+    private let onCellTappedClosure: (FetchMovie) -> ()
+    private var results: [FetchMovie] = []
     
-    init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (Result) -> ()) {
+    init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (FetchMovie) -> ()) {
         self.tableView = tableView
         self.viewController = viewController
         self.onCellTappedClosure = onCellTappedClosure

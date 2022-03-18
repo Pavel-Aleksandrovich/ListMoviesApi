@@ -24,15 +24,15 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     private let refreshControl: RefreshControl
     private let viewController: UIViewController
     private let tableView: UITableView
-    private let onCellTappedClosure: (Result) -> ()
-    private var movies: [Result] = []
-    private var results: [Result] = []
+    private let onCellTappedClosure: (FetchMovie) -> ()
+    private var movies: [FetchMovie] = []
+    private var results: [FetchMovie] = []
     private var isLoading = false
     private var state: SortState = .random
     
     var pageClosure: (() -> ())?
     
-    init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (Result) -> ()) {
+    init(tableView: UITableView, viewController: UIViewController, onCellTappedClosure: @escaping (FetchMovie) -> ()) {
         self.tableView = tableView
         self.viewController = viewController
         self.onCellTappedClosure = onCellTappedClosure

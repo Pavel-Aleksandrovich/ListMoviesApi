@@ -9,7 +9,7 @@ import UIKit
 
 protocol MoviesSearchPresenter {
     func onViewAttached(controller: MoviesSearchViewController)
-    func showMovieDetails(movie: Result)
+    func showMovieDetails(movie: FetchMovie)
     func searchMovies(string: String)
 }
 
@@ -33,7 +33,7 @@ final class MoviesSearchPresenterImpl: MoviesSearchPresenter {
         self.controller = controller
     }
     
-    func showMovieDetails(movie: Result) {
+    func showMovieDetails(movie: FetchMovie) {
         router.showMovieDetails(movie: movie)
     }
     

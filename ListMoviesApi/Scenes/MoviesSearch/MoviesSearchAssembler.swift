@@ -12,7 +12,7 @@ final class MoviesSearchAssembler {
     static func assembly() -> UIViewController {
         
         let router = MoviesSearchRouterImpl()
-        let networkManager = NetworkManager()
+        let networkManager = NetworkManagerImpl()
         let interactor = MoviesInteractorImpl(networkManager: networkManager)
         let presenter = MoviesSearchPresenterImpl(interactor: interactor, router: router)
         let controller = MoviesSearchViewControllerImpl(presenter: presenter)

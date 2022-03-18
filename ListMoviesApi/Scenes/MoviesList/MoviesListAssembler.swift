@@ -12,7 +12,7 @@ final class MoviesListAssembler {
     static func assembly() -> UIViewController {
         
         let router = MoviesListRouterImpl()
-        let networkManager = NetworkManager()
+        let networkManager = NetworkManagerImpl()
         let interactor = MoviesInteractorImpl(networkManager: networkManager)
         let presenter = MoviesListPresenterImpl(interactor: interactor, router: router)
         let controller = MoviesListViewControllerImpl(presenter: presenter)

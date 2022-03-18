@@ -8,8 +8,8 @@
 import Foundation
 
 protocol MoviesInteractor {
-    func getMovies(page: Int, completed: @escaping(GetResult) -> ())
-    func searchMovies(query: String, completed: @escaping(GetResult) -> ())
+    func getMovies(page: Int, completed: @escaping(Result<PopularMovie, ErrorMessage>) -> ())
+    func searchMovies(query: String, completed: @escaping(Result<PopularMovie, ErrorMessage>) -> ())
     func loadMoviePosterBy(url: String, completed: @escaping(Data) -> ())
 }
 
@@ -21,33 +21,15 @@ final class MoviesInteractorImpl: MoviesInteractor {
         self.networkManager = networkManager
     }
     
-    func getMovies(page: Int, completed: @escaping(GetResult) -> ()) {
-        networkManager.getMovies(page: page) { result in
-            switch result {
-            case .failure(let error):
-                completed(.failure(error))
-            case .success(let movie):
-                completed(.success(movie))
-            }
-        }
+    func getMovies(page: Int, completed: @escaping(Result<PopularMovie, ErrorMessage>) -> ()) {
+        networkManager.fetchPopularMovies(page: "\(page)", completion: completed)
     }
     
-    func searchMovies(query: String, completed: @escaping(GetResult) -> ()) {
-        networkManager.searchMovies(query: query) { result in
-            switch result {
-            case .failure(let error):
-                completed(.failure(error))
-            case .success(let movies):
-                completed(.success(movies))
-            }
-        }
+    func searchMovies(query: String, completed: @escaping(Result<PopularMovie, ErrorMessage>) -> ()) {
+        networkManager.searchMovies(query: query, completion: completed)
     }
     
     func loadMoviePosterBy(url: String, completed: @escaping(Data) -> ()) {
-        networkManager.loadMoviePosterBy(url: url) { data in
-            completed(data)
-        }
+        networkManager.loadMoviePosterBy(url: url, completed: completed)
     }
 }
-
-
