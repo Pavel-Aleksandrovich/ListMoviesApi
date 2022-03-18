@@ -17,7 +17,13 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
     private let presenter: MovieDetailsPresenter
     private let activityView = UIActivityIndicatorView()
     private let titleLabel = UILabel()
-    private let pokemonImageView = UIImageView()
+    private let movieImageView = UIImageView()
+    private let overviewLabel = UILabel()
+    private let genreLabel = UILabel()
+    private let scrollView = UIScrollView()
+    private var vConstraints = [NSLayoutConstraint]()
+    private var hConstraints = [NSLayoutConstraint]()
+    private var defaultConstraint = [NSLayoutConstraint]()
     
     init(presenter: MovieDetailsPresenter) {
         self.presenter = presenter
@@ -36,51 +42,110 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         configureLayout()
     }
     
-    func configure(movie: Result) {
-        DispatchQueue.main.async {
-            self.titleLabel.text = movie.title
-            print(movie.posterPath)
-            self.activityView.stopAnimating()
-            self.loadPokemonPhotoBy(url: movie.posterPath) { data in
-                self.pokemonImageView.image = UIImage(data: data)
-            }
-        }
-    }
-    
-    func loadPokemonPhotoBy(url: String, completed: @escaping(Data) -> ()) {
-        let imageURL = URL(string: "https://image.tmdb.org/t/p/original" + url)!
-        
-        DispatchQueue.global(qos: .utility).async {
-            if let data = try? Data(contentsOf: imageURL) {
-                DispatchQueue.main.async {
-                    completed(data)
-                }
-            }
-        }
+    func configure(movie: MovieDetails) {
+        activityView.stopAnimating()
+        titleLabel.text = movie.title
+        overviewLabel.text = movie.overview
+        movieImageView.image = UIImage(data: movie.imageData)
+        print(movie.genre)
     }
     
     private func configureView() {
         view.backgroundColor = .white
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0
+        
+        overviewLabel.textAlignment = .center
+        overviewLabel.numberOfLines = 0
+        
+        movieImageView.layer.cornerRadius = 10
+        movieImageView.clipsToBounds = true
+        
+        scrollView.backgroundColor = .systemBackground
     }
     
     private func configureLayout() {
         
-        [titleLabel, pokemonImageView, activityView].forEach {
+        [scrollView, titleLabel, movieImageView, activityView, overviewLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview($0)
         }
         
-        NSLayoutConstraint.activate([
-            pokemonImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pokemonImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            pokemonImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            pokemonImageView.widthAnchor.constraint(equalTo: pokemonImageView.heightAnchor),
+        view.addSubview(scrollView)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(movieImageView)
+        scrollView.addSubview(activityView)
+        scrollView.addSubview(overviewLabel)
+        
+        defaultConstraint.append(contentsOf: [
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: pokemonImageView.bottomAnchor, constant: 20),
+            activityView.centerYAnchor.constraint(equalTo: movieImageView.centerYAnchor),
+            activityView.centerXAnchor.constraint(equalTo: movieImageView.centerXAnchor),
             
-            activityView.centerYAnchor.constraint(equalTo: pokemonImageView.centerYAnchor),
-            activityView.centerXAnchor.constraint(equalTo: pokemonImageView.centerXAnchor),
+            overviewLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            overviewLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            overviewLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
+            overviewLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
+                         
+        vConstraints.append(contentsOf: defaultConstraint)
+        vConstraints.append(contentsOf: [
+            
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            movieImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            movieImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            movieImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            movieImageView.widthAnchor.constraint(equalTo: movieImageView.heightAnchor),
+        ])
+        
+        hConstraints.append(contentsOf: defaultConstraint)
+        hConstraints.append(contentsOf: [
+            
+            movieImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            movieImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
+            movieImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            movieImageView.widthAnchor.constraint(equalTo: movieImageView.heightAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: movieImageView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+        ])
+        
+        NSLayoutConstraint.activate( hConstraints )
+        changeViewLayout(traitCollection: traitCollection)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        changeViewLayout(traitCollection: traitCollection, previousTraitCollection: previousTraitCollection)
+    }
+    
+    private func changeViewLayout(traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection? = nil) {
+        guard traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass ||
+                traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass else { return }
+        
+        switch(traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        case (.compact, .regular): activateCompactLayout()
+        default:                   activateRegularLayout()
+        }
+    }
+    
+    private func activateCompactLayout() {
+        NSLayoutConstraint.deactivate(hConstraints)
+        NSLayoutConstraint.activate(vConstraints)
+    }
+    
+    private func activateRegularLayout() {
+        NSLayoutConstraint.deactivate(vConstraints)
+        NSLayoutConstraint.activate(hConstraints)
     }
 }

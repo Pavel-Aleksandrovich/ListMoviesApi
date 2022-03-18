@@ -13,7 +13,7 @@ enum GetResult {
 }
 
 final class NetworkManager {
-    
+//    https://api.themoviedb.org/3/movie/popular?api_key=e42ad7e92f09e1e62746935304b34548&person_id
     // token 13f80f74ffa9f05c8bb57ddd1eab91bad1465460
     
     private let baseKey = "https://api.themoviedb.org/3/movie/popular?api_key=e42ad7e92f09e1e62746935304b34548"
@@ -90,5 +90,17 @@ final class NetworkManager {
                 completed(.failure(.invalidData))
             }
         }.resume()
+    }
+    
+    func loadMoviePosterBy(url: String, completed: @escaping(Data) -> ()) {
+        let imageURL = URL(string: "https://image.tmdb.org/t/p/original" + url)!
+        
+        DispatchQueue.global(qos: .utility).async {
+            if let data = try? Data(contentsOf: imageURL) {
+                DispatchQueue.main.async {
+                    completed(data)
+                }
+            }
+        }
     }
 }

@@ -33,6 +33,7 @@
 		847E09DC27E1B10C0067E936 /* MoviesSearchAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09DB27E1B10C0067E936 /* MoviesSearchAssembler.swift */; };
 		847E09DE27E1B2670067E936 /* MovieDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09DD27E1B2670067E936 /* MovieDetailsPresenter.swift */; };
 		847E09E027E1B33C0067E936 /* MovieDetailsAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09DF27E1B33C0067E936 /* MovieDetailsAssembler.swift */; };
+		847E09E227E330330067E936 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09E127E330330067E936 /* MovieDetails.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		847E09DB27E1B10C0067E936 /* MoviesSearchAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesSearchAssembler.swift; sourceTree = "<group>"; };
 		847E09DD27E1B2670067E936 /* MovieDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsPresenter.swift; sourceTree = "<group>"; };
 		847E09DF27E1B33C0067E936 /* MovieDetailsAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsAssembler.swift; sourceTree = "<group>"; };
+		847E09E127E330330067E936 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				847E09A327DF31060067E936 /* PopularMovie.swift */,
+				847E09E127E330330067E936 /* MovieDetails.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847E09E227E330330067E936 /* MovieDetails.swift in Sources */,
 				847E09BD27E061AD0067E936 /* MovieDetailsViewController.swift in Sources */,
 				847E09A927DF33A80067E936 /* MoviesTable.swift in Sources */,
 				847E09AC27DF344B0067E936 /* RefreshControl.swift in Sources */,

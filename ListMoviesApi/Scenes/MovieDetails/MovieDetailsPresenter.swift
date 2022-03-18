@@ -12,7 +12,7 @@ protocol MovieDetailsPresenter {
 }
 
 protocol MovieDetailsViewController: AnyObject {
-    func configure(movie: Result)
+    func configure(movie: MovieDetails)
 }
 
 final class MovieDetailsPresenterImpl: MovieDetailsPresenter {
@@ -32,6 +32,10 @@ final class MovieDetailsPresenterImpl: MovieDetailsPresenter {
     }
     
     private func configureView() {
-        controller?.configure(movie: movie)
+        interactor.loadMoviePosterBy(url: movie.posterPath) { data in
+            let movieDetails = MovieDetails(title: self.movie.title, imageData: data, overview: self.movie.overview, genre: self.movie.genreIDS)
+            self.controller?.configure(movie: movieDetails)
+            print(self.movie.voteAverage)
+        }
     }
 }
