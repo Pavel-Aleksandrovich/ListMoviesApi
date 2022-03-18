@@ -37,8 +37,6 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityView.startAnimating()
-        configureView()
         configureLayout()
     }
     
@@ -50,7 +48,16 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         print(movie.genre)
     }
     
+    private func configureLayout() {
+        configureView()
+        configureDefaultConstraints()
+        configureVerticalConstraints()
+        configureHorizontalConstraints()
+    }
+    
     private func configureView() {
+        activityView.startAnimating()
+        
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = false
         
@@ -64,9 +71,6 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         movieImageView.clipsToBounds = true
         
         scrollView.backgroundColor = .systemBackground
-    }
-    
-    private func configureLayout() {
         
         [scrollView, titleLabel, movieImageView, activityView, overviewLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +81,9 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         scrollView.addSubview(movieImageView)
         scrollView.addSubview(activityView)
         scrollView.addSubview(overviewLabel)
-        
+    }
+    
+    private func configureDefaultConstraints() {
         defaultConstraint.append(contentsOf: [
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -92,7 +98,10 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
             overviewLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
             overviewLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
-                         
+    }
+    
+    private func configureVerticalConstraints() {
+        
         vConstraints.append(contentsOf: defaultConstraint)
         vConstraints.append(contentsOf: [
             
@@ -102,16 +111,18 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
             
             movieImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             movieImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            movieImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            movieImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             movieImageView.widthAnchor.constraint(equalTo: movieImageView.heightAnchor),
         ])
-        
+    }
+    
+    private func configureHorizontalConstraints() {
         hConstraints.append(contentsOf: defaultConstraint)
         hConstraints.append(contentsOf: [
             
-            movieImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            movieImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             movieImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
-            movieImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            movieImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8),
             movieImageView.widthAnchor.constraint(equalTo: movieImageView.heightAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: movieImageView.topAnchor),
@@ -122,6 +133,7 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         NSLayoutConstraint.activate( hConstraints )
         changeViewLayout(traitCollection: traitCollection)
     }
+    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -134,17 +146,17 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
                 traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass else { return }
         
         switch(traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.compact, .regular): activateCompactLayout()
-        default:                   activateRegularLayout()
+        case (.compact, .regular): activateVerticalLayout()
+        default:                   activateHorizontalLayout()
         }
     }
     
-    private func activateCompactLayout() {
+    private func activateVerticalLayout() {
         NSLayoutConstraint.deactivate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
     }
     
-    private func activateRegularLayout() {
+    private func activateHorizontalLayout() {
         NSLayoutConstraint.deactivate(vConstraints)
         NSLayoutConstraint.activate(hConstraints)
     }
