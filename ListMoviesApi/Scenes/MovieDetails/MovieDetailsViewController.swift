@@ -17,7 +17,7 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
     private let presenter: MovieDetailsPresenter
     private let activityView = UIActivityIndicatorView()
     private let titleLabel = UILabel()
-    private let movieImageView = UIImageView()
+    private let movieImageView = CustomView()
     private let overviewLabel = UILabel()
     private let genreLabel = UILabel()
     private let scrollView = UIScrollView()
@@ -41,11 +41,13 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
     }
     
     func configure(movie: MovieDetails) {
-        activityView.stopAnimating()
-        titleLabel.text = movie.title
-        overviewLabel.text = movie.overview
-        movieImageView.image = UIImage(data: movie.imageData)
-        print(movie.genre)
+        DispatchQueue.main.async {
+            self.activityView.stopAnimating()
+            self.titleLabel.text = movie.title
+            self.overviewLabel.text = movie.overview
+            self.movieImageView.setImageUrl(url: movie.poster)
+            print(movie.genre)
+        }
     }
     
     private func configureLayout() {

@@ -8,15 +8,15 @@
 import UIKit
 
 protocol MoviesSearchRouter {
-    func showMovieDetails(movie: FetchMovie)
+    func showMovieDetails(id: Int)
 }
 
 final class MoviesSearchRouterImpl: MoviesSearchRouter {
     
     weak var controller: UIViewController?
     
-    func showMovieDetails(movie: FetchMovie) {
-        let vc = MovieDetailsAssembler.assembly(movie: movie)
+    func showMovieDetails(id: Int) {
+        let vc = MovieDetailsAssembler.assembly(id: id)
         controller?.navigationController?.pushViewController(vc, animated: false)
     }
 }

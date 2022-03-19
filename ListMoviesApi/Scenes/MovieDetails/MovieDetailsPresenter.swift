@@ -19,11 +19,13 @@ final class MovieDetailsPresenterImpl: MovieDetailsPresenter {
     
     private weak var controller: MovieDetailsViewController?
     private let interactor: MoviesInteractor
-    private var movie: FetchMovie
+    private let id: Int
+    private let converter: MovieDetailsConverter
     
-    init(interactor: MoviesInteractor, movie: FetchMovie) {
+    init(interactor: MoviesInteractor, id: Int, converter: MovieDetailsConverter) {
         self.interactor = interactor
-        self.movie = movie
+        self.id = id
+        self.converter = converter
     }
     
     func onViewAttached(controller: MovieDetailsViewController) {
@@ -32,10 +34,23 @@ final class MovieDetailsPresenterImpl: MovieDetailsPresenter {
     }
     
     private func configureView() {
-        interactor.loadMoviePosterBy(url: movie.posterPath) { data in
-            let movieDetails = MovieDetails(title: self.movie.title, imageData: data, overview: self.movie.overview, genre: self.movie.genreIDS)
-            self.controller?.configure(movie: movieDetails)
-            print(self.movie.voteAverage)
+        print(id)
+        interactor.fetchMovieById(id: id) { result in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let movie):
+                self.controller?.configure(movie: self.converter.convert(movie: movie))
+            }
         }
+    }
+}
+
+final class MovieDetailsConverter {
+    
+    func convert(movie: OneMovie) -> MovieDetails {
+        let movieDetails = MovieDetails(title: movie.title, poster: "https://image.tmdb.org/t/p/original" +  movie.posterPath, overview: movie.overview, genre: [1])
+        
+        return movieDetails
     }
 }

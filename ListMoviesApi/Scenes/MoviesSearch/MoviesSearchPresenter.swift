@@ -34,7 +34,7 @@ final class MoviesSearchPresenterImpl: MoviesSearchPresenter {
     }
     
     func showMovieDetails(movie: FetchMovie) {
-        router.showMovieDetails(movie: movie)
+        router.showMovieDetails(id: movie.id)
     }
     
     func searchMovies(string: String) {

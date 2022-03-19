@@ -34,7 +34,7 @@ final class MoviesListPresenterImpl: MoviesListPresenter {
     }
     
     func showMovieDetails(movie: FetchMovie) {
-        router.showMovieDetails(movie: movie)
+        router.showMovieDetails(id: movie.id)
     }
     
     func getMovies(page: Int) {

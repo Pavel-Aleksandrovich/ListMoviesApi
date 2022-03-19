@@ -8,8 +8,8 @@
 import Foundation
 
 struct MovieDetails {
-    var title: String
-    var imageData: Data
-    var overview: String
-    var genre: [Int]
+    let title: String
+    let poster: String
+    let overview: String
+    let genre: [Int]
 }

@@ -11,6 +11,7 @@ protocol NetworkManager {
     func fetchPopularMovies(page: String, completion: @escaping(Result<PopularMovie, ErrorMessage>) -> ())
     func searchMovies(query: String, completion: @escaping(Result<PopularMovie, ErrorMessage>) -> ())
     func loadMoviePosterBy(url: String, completed: @escaping(Data) -> ())
+    func fetchMovieById(id: String, completion: @escaping(Result<OneMovie, ErrorMessage>) -> ())
 }
 
 final class NetworkManagerImpl: NetworkManager {
@@ -75,5 +76,42 @@ final class NetworkManagerImpl: NetworkManager {
                 }
             }
         }
+    }
+    
+    func fetchMovieById(id: String, completion: @escaping(Result<OneMovie, ErrorMessage>) -> ()) {
+        
+        let url = "https://api.themoviedb.org/3/movie/" + "\(id)" + "?api_key=e42ad7e92f09e1e62746935304b34548"
+        
+        guard let url = URL(string: url) else {
+            completion(.failure(.invalidUrl))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            //             Returns if error exists
+            if let _ = error {
+                completion(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completion(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.invalidData))
+                return
+            }
+            
+            do {
+                let response = try JSONDecoder().decode(OneMovie.self, from: data)
+                completion(.success(response))
+            } catch {
+                
+                completion(.failure(.invalidData))
+            }
+        }.resume()
     }
 }
