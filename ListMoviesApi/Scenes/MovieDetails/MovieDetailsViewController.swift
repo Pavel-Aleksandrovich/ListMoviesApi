@@ -46,6 +46,7 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
             self.titleLabel.text = movie.title
             self.overviewLabel.text = movie.overview
             self.movieImageView.setImageUrl(url: movie.poster)
+            self.genreLabel.text = movie.genre
             print(movie.genre)
         }
     }
@@ -66,6 +67,9 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
         
+        genreLabel.textAlignment = .center
+        genreLabel.numberOfLines = 0
+        
         overviewLabel.textAlignment = .center
         overviewLabel.numberOfLines = 0
         
@@ -74,7 +78,7 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         
         scrollView.backgroundColor = .systemBackground
         
-        [scrollView, titleLabel, movieImageView, activityView, overviewLabel].forEach {
+        [scrollView, titleLabel, movieImageView, activityView, overviewLabel, genreLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -83,6 +87,7 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         scrollView.addSubview(movieImageView)
         scrollView.addSubview(activityView)
         scrollView.addSubview(overviewLabel)
+        scrollView.addSubview(genreLabel)
     }
     
     private func configureDefaultConstraints() {
@@ -99,6 +104,10 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
             overviewLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             overviewLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
             overviewLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            genreLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            genreLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            genreLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
         ])
     }
     
@@ -112,7 +121,7 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
             titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
             movieImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            movieImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            movieImageView.topAnchor.constraint(equalTo: genreLabel.bottomAnchor, constant: 20),
             movieImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             movieImageView.widthAnchor.constraint(equalTo: movieImageView.heightAnchor),
         ])
@@ -135,7 +144,6 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         NSLayoutConstraint.activate( hConstraints )
         changeViewLayout(traitCollection: traitCollection)
     }
-    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)

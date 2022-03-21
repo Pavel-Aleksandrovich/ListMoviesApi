@@ -36,6 +36,7 @@
 		847E09E227E330330067E936 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09E127E330330067E936 /* MovieDetails.swift */; };
 		847E09E427E58A9D0067E936 /* OneMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09E327E58A9D0067E936 /* OneMovie.swift */; };
 		847E09E627E58D0F0067E936 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09E527E58D0F0067E936 /* CustomView.swift */; };
+		847E09E827E606290067E936 /* MovieDetailsConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09E727E606290067E936 /* MovieDetailsConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		847E09E127E330330067E936 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		847E09E327E58A9D0067E936 /* OneMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneMovie.swift; sourceTree = "<group>"; };
 		847E09E527E58D0F0067E936 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		847E09E727E606290067E936 /* MovieDetailsConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 				847E09DD27E1B2670067E936 /* MovieDetailsPresenter.swift */,
 				847E09DF27E1B33C0067E936 /* MovieDetailsAssembler.swift */,
 				847E09E527E58D0F0067E936 /* CustomView.swift */,
+				847E09E727E606290067E936 /* MovieDetailsConverter.swift */,
 			);
 			path = MovieDetails;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				847E09D827E1B08E0067E936 /* MoviesSearchPresenter.swift in Sources */,
 				847E09DE27E1B2670067E936 /* MovieDetailsPresenter.swift in Sources */,
 				847E09D027E1ACD00067E936 /* MoviesInteractor.swift in Sources */,
+				847E09E827E606290067E936 /* MovieDetailsConverter.swift in Sources */,
 				847E099327DEFA3B0067E936 /* MoviesListViewController.swift in Sources */,
 				847E09D427E1AED70067E936 /* MoviesListRouter.swift in Sources */,
 				847E09DC27E1B10C0067E936 /* MoviesSearchAssembler.swift in Sources */,

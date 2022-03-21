@@ -11,5 +11,5 @@ struct MovieDetails {
     let title: String
     let poster: String
     let overview: String
-    let genre: [Int]
+    let genre: String
 }

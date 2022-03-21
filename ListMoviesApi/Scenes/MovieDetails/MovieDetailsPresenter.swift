@@ -34,23 +34,13 @@ final class MovieDetailsPresenterImpl: MovieDetailsPresenter {
     }
     
     private func configureView() {
-        print(id)
         interactor.fetchMovieById(id: id) { result in
             switch result {
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             case .success(let movie):
                 self.controller?.configure(movie: self.converter.convert(movie: movie))
             }
         }
-    }
-}
-
-final class MovieDetailsConverter {
-    
-    func convert(movie: OneMovie) -> MovieDetails {
-        let movieDetails = MovieDetails(title: movie.title, poster: "https://image.tmdb.org/t/p/original" +  movie.posterPath, overview: movie.overview, genre: [1])
-        
-        return movieDetails
     }
 }
