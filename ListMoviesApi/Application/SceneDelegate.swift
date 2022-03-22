@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = MoviesTabBarController()
         window?.makeKeyAndVisible()
+        window?.overrideUserInterfaceStyle = UserDefaults.standard.theme.getUserInterfaceStyle()
     }
 }
 

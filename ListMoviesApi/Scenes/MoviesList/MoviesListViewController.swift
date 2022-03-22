@@ -19,10 +19,13 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         static let title = "Movies"
     }
     
+    private var menuState: MenuState = .close
     private let presenter: MoviesListPresenter
     private let tableView = UITableView()
     private var table: MoviesTable!
     private var page: Int = 1
+    
+    private lazy var menuBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet")?.withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(menuBarButtomItemTapped))
     
     init(presenter: MoviesListPresenter) {
         self.presenter = presenter
@@ -38,6 +41,19 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         super.viewDidLoad()
         createTableView()
         createSortingButton()
+        navigationItem.setLeftBarButton(menuBarButtonItem, animated: false)
+    }
+    
+    @objc private func menuBarButtomItemTapped() {
+        switch menuState {
+        case .close:
+            navigationController?.view.frame.origin.x = view.frame.size.width * 0.7
+            menuState = .open
+            
+        case .open:
+            navigationController?.view.frame.origin.x = 0
+            menuState = .close
+        }
     }
     
     private func createTableView() {
@@ -68,11 +84,11 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     }
     
     private func createSortingButton() {
-        let sortingButton = UIBarButtonItem(title: "Sorting by: Random", style: .done, target: self, action: #selector(sortingButtonTapped))
+        let sortingButton = UIBarButtonItem(title: "Sorting by: Random", style: .done, target: self, action: #selector(showSortingAlert))
         navigationItem.rightBarButtonItem = sortingButton
     }
     
-    @objc private func sortingButtonTapped() {
+    @objc private func showSortingAlert() {
         let alert = UIAlertController(title: "Sorting by:", message: nil, preferredStyle: .actionSheet)
         
         let photoLibraryAction = UIAlertAction(title: "Id", style: .default) {_ in
@@ -97,4 +113,3 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         present(alert, animated: true)
     }
 }
-

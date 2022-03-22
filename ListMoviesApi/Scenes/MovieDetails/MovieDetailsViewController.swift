@@ -41,13 +41,14 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
     }
     
     func configure(movie: MovieDetails) {
+        
         DispatchQueue.main.async {
-            self.activityView.stopAnimating()
             self.titleLabel.text = movie.title
             self.overviewLabel.text = movie.overview
             self.movieImageView.setImageUrl(url: movie.poster)
             self.genreLabel.text = movie.genre
-            print(movie.genre)
+            
+            self.activityView.stopAnimating()
         }
     }
     
@@ -56,12 +57,13 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         configureDefaultConstraints()
         configureVerticalConstraints()
         configureHorizontalConstraints()
+        overrideUserInterfaceStyle = .dark
     }
     
     private func configureView() {
         activityView.startAnimating()
-        
-        view.backgroundColor = .white
+            
+        view.backgroundColor = UIColor(named: "backgroundColor")
         navigationController?.navigationBar.prefersLargeTitles = false
         
         titleLabel.textAlignment = .center
