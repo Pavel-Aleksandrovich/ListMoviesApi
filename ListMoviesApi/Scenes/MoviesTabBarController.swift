@@ -10,14 +10,14 @@ import UIKit
 final class MoviesTabBarController: UITabBarController {
     
     private let moviesSearch = MoviesSearchAssembler.assembly()
-    private let movieContainer = MovieContainerViewController()
+    private let moviesList = MoviesListAssembler.assembly()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieContainer.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 0)
+        moviesList.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 0)
         moviesSearch.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
         
-        viewControllers = [movieContainer, moviesSearch]
+        viewControllers = [moviesList, moviesSearch]
     }
 }

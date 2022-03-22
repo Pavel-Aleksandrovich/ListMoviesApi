@@ -19,15 +19,11 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         static let title = "Movies"
     }
     
-    private var menuState: MenuState = .close
     private let presenter: MoviesListPresenter
     private let tableView = UITableView()
     private var table: MoviesTable!
     private var page: Int = 1
-    let slideMenu = SlideMenuViewController()
     private var sortBarButton = CustomBarButtonItem()
-    
-    private lazy var menuBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet")?.withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(menuBarButtomItemTapped))
     
     init(presenter: MoviesListPresenter) {
         self.presenter = presenter
@@ -42,20 +38,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         createTableView()
-        createSortButton()
-        navigationItem.setLeftBarButton(menuBarButtonItem, animated: false)
-    }
-    
-    @objc private func menuBarButtomItemTapped() {
-        switch menuState {
-        case .close:
-            navigationController?.view.frame.origin.x = view.frame.size.width * 0.7
-            menuState = .open
-            
-        case .open:
-            navigationController?.view.frame.origin.x = 0
-            menuState = .close
-        }
+        createSortBarButton()
     }
     
     private func createTableView() {
@@ -85,7 +68,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         page += 1
     }
     
-    private func createSortButton() {
+    private func createSortBarButton() {
         sortBarButton.createSortingButton(viewController: self) { sortState in
             self.table.sortBy(state: sortState)
         }
