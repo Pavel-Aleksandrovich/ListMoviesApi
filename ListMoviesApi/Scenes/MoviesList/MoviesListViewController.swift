@@ -24,6 +24,8 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     private let tableView = UITableView()
     private var table: MoviesTable!
     private var page: Int = 1
+    let slideMenu = SlideMenuViewController()
+    private var sortBarButton = CustomBarButtonItem()
     
     private lazy var menuBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet")?.withRenderingMode(.alwaysOriginal), style: .done, target: self, action: #selector(menuBarButtomItemTapped))
     
@@ -40,7 +42,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         createTableView()
-        createSortingButton()
+        createSortButton()
         navigationItem.setLeftBarButton(menuBarButtonItem, animated: false)
     }
     
@@ -83,33 +85,9 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         page += 1
     }
     
-    private func createSortingButton() {
-        let sortingButton = UIBarButtonItem(title: "Sorting by: Random", style: .done, target: self, action: #selector(showSortingAlert))
-        navigationItem.rightBarButtonItem = sortingButton
-    }
-    
-    @objc private func showSortingAlert() {
-        let alert = UIAlertController(title: "Sorting by:", message: nil, preferredStyle: .actionSheet)
-        
-        let photoLibraryAction = UIAlertAction(title: "Id", style: .default) {_ in
-            self.table.sortBy(state: .id)
-            self.navigationItem.rightBarButtonItem?.title = "Sorting by: Id"
+    private func createSortButton() {
+        sortBarButton.createSortingButton(viewController: self) { sortState in
+            self.table.sortBy(state: sortState)
         }
-        let cameraAction = UIAlertAction(title: "Title", style: .default) {_ in
-            self.table.sortBy(state: .title)
-            self.navigationItem.rightBarButtonItem?.title = "Sorting by: Title"
-        }
-        let randomAction = UIAlertAction(title: "Random", style: .default) {_ in
-            self.table.sortBy(state: .random)
-            self.navigationItem.rightBarButtonItem?.title = "Sorting by: Random"
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alert.addAction(photoLibraryAction)
-        alert.addAction(cameraAction)
-        alert.addAction(randomAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
     }
 }

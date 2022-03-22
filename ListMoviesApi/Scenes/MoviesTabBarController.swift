@@ -10,7 +10,7 @@ import UIKit
 final class MoviesTabBarController: UITabBarController {
     
     private let moviesSearch = MoviesSearchAssembler.assembly()
-    private let movieContainer = MoviewContainerViewController()
+    private let movieContainer = MovieContainerViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()

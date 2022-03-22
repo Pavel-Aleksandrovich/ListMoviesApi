@@ -12,11 +12,10 @@ enum MenuState {
     case close
 }
 
-final class MoviewContainerViewController: UIViewController {
+final class MovieContainerViewController: UIViewController {
     
     let moviesList = MoviesListAssembler.assembly()
     let slideMenu = SlideMenuViewController()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

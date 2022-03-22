@@ -40,8 +40,9 @@
 		847E09EB27E844130067E936 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09EA27E844130067E936 /* Theme.swift */; };
 		847E09ED27E844B90067E936 /* ThemeUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09EC27E844B90067E936 /* ThemeUserDefaults.swift */; };
 		847E09EF27E8571B0067E936 /* SlideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09EE27E8571B0067E936 /* SlideMenuViewController.swift */; };
-		847E09F127E8901B0067E936 /* MoviewContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09F027E8901B0067E936 /* MoviewContainerViewController.swift */; };
+		847E09F127E8901B0067E936 /* MovieContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09F027E8901B0067E936 /* MovieContainerViewController.swift */; };
 		847E09F427E983F60067E936 /* SlideTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09F327E983F60067E936 /* SlideTable.swift */; };
+		847E09F627E99FA30067E936 /* CustomBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E09F527E99FA30067E936 /* CustomBarButtonItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,8 +81,9 @@
 		847E09EA27E844130067E936 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		847E09EC27E844B90067E936 /* ThemeUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUserDefaults.swift; sourceTree = "<group>"; };
 		847E09EE27E8571B0067E936 /* SlideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuViewController.swift; sourceTree = "<group>"; };
-		847E09F027E8901B0067E936 /* MoviewContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviewContainerViewController.swift; sourceTree = "<group>"; };
+		847E09F027E8901B0067E936 /* MovieContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieContainerViewController.swift; sourceTree = "<group>"; };
 		847E09F327E983F60067E936 /* SlideTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTable.swift; sourceTree = "<group>"; };
+		847E09F527E99FA30067E936 /* CustomBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButtonItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,8 +205,9 @@
 		847E09BA27E061710067E936 /* MoviesList */ = {
 			isa = PBXGroup;
 			children = (
-				847E09F027E8901B0067E936 /* MoviewContainerViewController.swift */,
+				847E09F027E8901B0067E936 /* MovieContainerViewController.swift */,
 				847E099227DEFA3B0067E936 /* MoviesListViewController.swift */,
+				847E09F527E99FA30067E936 /* CustomBarButtonItem.swift */,
 				847E09A827DF33A80067E936 /* MoviesTable.swift */,
 				847E09D127E1ADA20067E936 /* MoviesListPresenter.swift */,
 				847E09D327E1AED70067E936 /* MoviesListRouter.swift */,
@@ -340,12 +343,13 @@
 				847E09A927DF33A80067E936 /* MoviesTable.swift in Sources */,
 				847E09AC27DF344B0067E936 /* RefreshControl.swift in Sources */,
 				847E09AE27DF346E0067E936 /* MoviesCell.swift in Sources */,
-				847E09F127E8901B0067E936 /* MoviewContainerViewController.swift in Sources */,
+				847E09F127E8901B0067E936 /* MovieContainerViewController.swift in Sources */,
 				847E09EB27E844130067E936 /* Theme.swift in Sources */,
 				847E09C627E08BE90067E936 /* MoviesSearchCell.swift in Sources */,
 				847E09D827E1B08E0067E936 /* MoviesSearchPresenter.swift in Sources */,
 				847E09DE27E1B2670067E936 /* MovieDetailsPresenter.swift in Sources */,
 				847E09D027E1ACD00067E936 /* MoviesInteractor.swift in Sources */,
+				847E09F627E99FA30067E936 /* CustomBarButtonItem.swift in Sources */,
 				847E09E827E606290067E936 /* MovieDetailsConverter.swift in Sources */,
 				847E099327DEFA3B0067E936 /* MoviesListViewController.swift in Sources */,
 				847E09D427E1AED70067E936 /* MoviesListRouter.swift in Sources */,
