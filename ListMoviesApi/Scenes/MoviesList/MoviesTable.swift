@@ -66,6 +66,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         results = movies.sorted { $0.id > $1.id  }
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.viewController.navigationItem.rightBarButtonItem?.title = "Sorting by: Id"
         }
     }
     
@@ -73,6 +74,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         results = movies.sorted { $0.title < $1.title }
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.viewController.navigationItem.rightBarButtonItem?.title = "Sorting by: Title"
         }
     }
     
@@ -80,6 +82,7 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         results = movies
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.viewController.navigationItem.rightBarButtonItem?.title = "Sorting by: Random"
         }
     }
     

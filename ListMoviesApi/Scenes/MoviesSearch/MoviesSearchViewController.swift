@@ -57,7 +57,7 @@ final class MoviesSearchViewControllerImpl: UIViewController, MoviesSearchViewCo
     }
     
     private func configureView() {
-        title = Constants.title
+        title = NSLocalizedString("MoviesList_title", comment: "")
         
         view.backgroundColor = .systemBackground
         

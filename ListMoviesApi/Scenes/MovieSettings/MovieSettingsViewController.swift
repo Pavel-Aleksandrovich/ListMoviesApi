@@ -18,6 +18,7 @@ final class MovieSettingsViewController: UIViewController {
         configureLayout()
         configureSwitchActions()
         chooseTheme()
+        title = NSLocalizedString("MoviesSettings_title", comment: "")
     }
     
     private func configureSwitchActions() {

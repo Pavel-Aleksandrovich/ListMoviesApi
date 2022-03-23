@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  ListMoviesApi
+
+  Created by pavel mishanin on 23.03.2022.
+  
+*/
+
+"MoviesList_title" = "Фильмы";
+"MoviesSettings_title" = "Настройки";

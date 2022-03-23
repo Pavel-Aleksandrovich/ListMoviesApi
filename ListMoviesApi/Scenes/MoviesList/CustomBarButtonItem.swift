@@ -32,15 +32,12 @@ final class CustomBarButtonItem: UIBarButtonItem {
         
         let photoLibraryAction = UIAlertAction(title: "Id", style: .default) {_ in
             self.sortComplitionHandler(.id)
-            self.viewController.navigationItem.rightBarButtonItem?.title = "Sorting by: Id"
         }
         let cameraAction = UIAlertAction(title: "Title", style: .default) {_ in
             self.sortComplitionHandler(.title)
-            self.viewController.navigationItem.rightBarButtonItem?.title = "Sorting by: Title"
         }
         let randomAction = UIAlertAction(title: "Random", style: .default) {_ in
             self.sortComplitionHandler(.random)
-            self.viewController.navigationItem.rightBarButtonItem?.title = "Sorting by: Random"
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         

@@ -40,6 +40,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         createTableView()
         createSortBarButton()
         view.backgroundColor = .systemBackground
+        title = NSLocalizedString("MoviesList_title", comment: "")
     }
     
     private func createTableView() {
