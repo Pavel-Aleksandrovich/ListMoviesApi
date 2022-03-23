@@ -57,7 +57,6 @@ final class MovieDetailsViewControllerImpl: UIViewController, MovieDetailsViewCo
         configureDefaultConstraints()
         configureVerticalConstraints()
         configureHorizontalConstraints()
-        overrideUserInterfaceStyle = .dark
     }
     
     private func configureView() {

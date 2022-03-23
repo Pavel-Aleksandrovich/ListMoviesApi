@@ -39,6 +39,7 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
         super.viewDidLoad()
         createTableView()
         createSortBarButton()
+        view.backgroundColor = .systemBackground
     }
     
     private func createTableView() {

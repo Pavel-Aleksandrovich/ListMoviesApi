@@ -59,8 +59,9 @@ final class MoviesSearchViewControllerImpl: UIViewController, MoviesSearchViewCo
     private func configureView() {
         title = Constants.title
         
+        view.backgroundColor = .systemBackground
+        
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.backgroundColor = UIColor(named: "NavBarGray")
         navigationItem.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
     }
 }
