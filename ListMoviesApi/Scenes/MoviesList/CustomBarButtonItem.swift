@@ -14,17 +14,12 @@ final class CustomBarButtonItem: UIBarButtonItem {
     
     func createSortingButton(
         viewController: UIViewController,
-        sortComplitionHandler: @escaping((SortState) -> ())) {
+        sortComplitionHandler: @escaping((SortState) -> ())) -> UIBarButtonItem {
         
         self.viewController = viewController
         self.sortComplitionHandler = sortComplitionHandler
         
-        createBarButtonItem()
-    }
-
-    private func createBarButtonItem() {
-        let sortingButton = UIBarButtonItem(title: "Sorting by: Random", style: .done, target: self, action: #selector(showSortingAlert))
-        viewController.navigationItem.rightBarButtonItem = sortingButton
+        return UIBarButtonItem(title: "Sorting by: Random", style: .done, target: self, action: #selector(showSortingAlert))
     }
     
     @objc private func showSortingAlert() {

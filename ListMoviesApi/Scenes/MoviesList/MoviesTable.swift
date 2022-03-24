@@ -10,7 +10,7 @@ import UIKit
 protocol MoviesTable {
     func configureMovies(movie: PopularMovie)
     var pageClosure: (() -> ())? { get set }
-    func sortBy(state: SortState)
+    var sortState: SortState { get set }
 }
 
 final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITableViewDataSource {
@@ -28,7 +28,12 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
     private var movies: [FetchMovie] = []
     private var results: [FetchMovie] = []
     private var isLoading = false
-    private var state: SortState = .random
+    
+    var sortState: SortState = .random {
+        didSet {
+            chooseState()
+        }
+    }
     
     var pageClosure: (() -> ())?
     
@@ -46,13 +51,8 @@ final class MoviesTableImpl: NSObject, MoviesTable, UITableViewDelegate, UITable
         chooseState()
     }
     
-    func sortBy(state: SortState) {
-        self.state = state
-        chooseState()
-    }
-    
     private func chooseState() {
-        switch self.state {
+        switch sortState {
         case .id:
             sortById()
         case .title:

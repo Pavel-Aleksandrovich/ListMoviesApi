@@ -71,8 +71,8 @@ final class MoviesListViewControllerImpl: UIViewController, MoviesListViewContro
     }
     
     private func createSortBarButton() {
-        sortBarButton.createSortingButton(viewController: self) { sortState in
-            self.table.sortBy(state: sortState)
+        navigationItem.rightBarButtonItem = sortBarButton.createSortingButton(viewController: self) { [ weak self ] sortState in
+            self?.table.sortState = sortState
         }
     }
 }
